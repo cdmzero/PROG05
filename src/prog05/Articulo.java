@@ -10,13 +10,13 @@ package prog05;
  *
  * @author jfunez
  */
-public class Articulo {
-    public int cod_ciudad;
-    public int cod_tienda;
-    public int cod_articulo;
-    public int cod_control;
-    public int unidades;
-    public String Descripcion_articulo;
+public final class Articulo {
+    private int cod_ciudad;
+    private int cod_tienda;
+    private int cod_articulo;
+    private int cod_control;
+    private int unidades;
+    private String Descripcion_articulo;
     
     
     
@@ -32,18 +32,26 @@ public class Articulo {
         }
 
 
-    public Articulo(int cod_ciudad, int cod_tienda, int cod_articulo, int cod_control, int unidades, String Descripcion_articulo) {
+    public Articulo(int cod_ciudad, int cod_tienda, int cod_articulo, int unidades, String Descripcion_articulo) {
         this.cod_ciudad = cod_ciudad;
         this.cod_tienda = cod_tienda;
         this.cod_articulo = cod_articulo;
-        this.cod_control = cod_control;
+        this.cod_control = 0;
         this.unidades = unidades;
         this.Descripcion_articulo = Descripcion_articulo;
         
-   
+        calcularDigitoControl();
     }
 
-
+    public Articulo(Articulo articulo) {
+        this.cod_ciudad = articulo.cod_ciudad;
+        this.cod_tienda = articulo.cod_tienda;
+        this.cod_articulo = articulo.cod_articulo;
+        this.cod_control = articulo.cod_control;
+        this.unidades = articulo.unidades;
+        this.Descripcion_articulo = articulo.Descripcion_articulo;
+        
+    }
 
  
     
@@ -53,7 +61,7 @@ public class Articulo {
     
     @Override
     public String toString() {
-        return "Articulo{" + "cod_ciudad=" + cod_ciudad + ", cod_tienda=" + cod_tienda + ", cod_articulo=" + cod_articulo +", cod_control=" + cod_control + ", Descripcion_articulo=" + Descripcion_articulo + ", Unidades"+ unidades + '}';
+        return "Articulo{" + "cod_ciudad=" + cod_ciudad + ", cod_tienda=" + cod_tienda + ", cod_articulo=" + cod_articulo +", cod_control=" + cod_control + ", Descripcion del articulo=" + Descripcion_articulo + ", Unidades="+ unidades + '}';
     
     }
     
@@ -62,7 +70,7 @@ public class Articulo {
     
     }
     
-    public String AumentarDecrementarConsultarUnidades(Articulo arti, int cantidad, String operacion) {
+    public String AumentarDecrementarConsultarUnidades(Articulo arti, int cantidad, String operacion) throws Exception {
         
         int stock = arti.getUnidades();
         int totalUnidades = 0;
@@ -80,7 +88,7 @@ public class Articulo {
             case "resta":
                 
                 if (stock < cantidad){
-                resultado="Error el stock es inferior a la cantidad a decrementar";
+                throw new Exception("       Error el stock es inferior a la cantidad a decrementar");
                
                 }
                 else{
@@ -94,18 +102,12 @@ public class Articulo {
                 resultado = String.valueOf(stock);
         }
         
-      
-       
+   
             return resultado;
     }
     
     
-    
-     
-    
-    
-  
-    
+
     
  
   //GETTERS
@@ -134,6 +136,16 @@ public class Articulo {
         return unidades;
     }
    
+    
+    //Metodo publico para establecer el codigo de control
+    
+    public void calcularDigitoControl(){
+        
+        int cod_control   = (this.cod_ciudad + this.cod_tienda + this.cod_articulo) % 99; 
+     
+        setCod_control(cod_control);
+        
+    } 
   
    
     
@@ -152,7 +164,7 @@ public class Articulo {
     public void setCod_articulo(int cod_articulo) {
         this.cod_articulo = cod_articulo;
     }
-    public void setCod_control(int cod_control) {
+    private void setCod_control(int cod_control) {
         this.cod_control = cod_control;
     }
     public void setUnidades(int unidades) {

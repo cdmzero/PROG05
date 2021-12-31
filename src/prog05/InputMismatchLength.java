@@ -6,15 +6,11 @@ package prog05;
 
 /**
  *
- * @author zero
+ * @author jfunez
  */
-class ExcepcionTiendaDeportes extends Exception {
-    public ExcepcionTiendaDeportes(String msg){
+class InputMismatchLength extends Exception {
+    public InputMismatchLength(String msg){
     super(msg);
-    
-    
     }
-        
+    
 }
-        
-        

@@ -9,56 +9,69 @@ import java.util.Scanner;
 
 /**
  *
- * @author zero
+ * @author Jose Funez
  */
 public class LanzadorTienda {
 
     public static void main(String[] args) {
         
+        
+        Articulo artis = new Articulo(12,34,567890,32,"dw");
+        
+        System.out.println(artis.toString());
+        
+        Articulo artipepis = new Articulo(artis);
+        
+        System.out.println(artipepis.toString());
+        
+        
         long codArticuloDeportivo = 0;
         String descripcion = "";
 
-        boolean verificacionArticulo = true;
+        boolean verificacionCod = true;
         boolean verificacionDescripcion = true;
-    
+        
+                         System.out.println("Bienvenido a la tienda de deportes MercaDeporte");
             
-                    while(verificacionArticulo)
+                    while(verificacionCod)
                     {
-                         Scanner sc = new Scanner(System.in);
+                         Scanner sc = leerTeclado();
+                         
+      
                         
-                       System.out.println("Pon un codigo de articulo:\nPor ejemplo: XXXX XXXXX-YY");
+                       System.out.print("Pon un codigo de articulo.\nPor ejemplo: XXXX XXXXX-YY: ");
                        
                         try
                         {
                             codArticuloDeportivo = sc.nextLong();
-                            verificacionArticulo = VerificarLength(codArticuloDeportivo);
+                            verificacionCod = validarCodigoArticulo(codArticuloDeportivo);
                         }
                         catch(InputMismatchException err)
                         {
                             System.err.println("Error de tipo");
                         }
-                        catch(InputMismatchLength err)
+                        catch(ExcepcionTiendaDeportes err)
                         {
-                            System.err.println("Error de longitud");
+                            System.err.println(err.getMessage());
                         }                       
                     }
                     
                     while(verificacionDescripcion)
                     {
-                         Scanner scx = new Scanner(System.in);
+                         Scanner scx = leerTeclado();
                         
-                       System.out.println("Pon una descripcion: \nPor ejemplo: La bicicleta más rápida del mercado en 2022");
+                       System.out.print("Pon una descripcion. \nPor ejemplo: La bici más rápida del mercado en 2022: ");
                        
                         try
                         {
                             descripcion = scx.nextLine();
-                            verificacionDescripcion = VerificarLengthDescription(descripcion);
+                            verificacionDescripcion = validarDescripcion(descripcion);
                         }
                         catch(InputMismatchException err)
                         {
                             System.err.println("Error de tipo");
                         }
-                        catch(InputMismatchLength err)
+                        catch(ExcepcionTiendaDeportes err)
                         {
                             System.err.println(err.getMessage());
                         }                       
@@ -68,12 +81,27 @@ public class LanzadorTienda {
 
         Articulo ArtiDeportivo = ObtenerDatosArticulo(codArticuloDeportivo, descripcion);
         
+        mostrarMenu(ArtiDeportivo);
         
-// Meter dentro de un metodo*
+   
+  }
+    
+    
+     private static Scanner leerTeclado(){
+        
+        Scanner sc = new Scanner(System.in);
+   
+        return sc;
+    }
+    
+     
+    private static void mostrarMenu(Articulo ArtiDeportivo){
+        
+                
                     
-        System.out.println("Bienvenidos a la tienda de caramelos:");
+        System.out.println("Menu de MercaDeporte:");
         System.out.println("\n");
-        System.out.println("Selecciona una opcion:");
+        System.out.println("Selecciona una opcion.");
         System.out.println("          Opcion 1 Ver el código completo del artículo:");
         System.out.println("          Opcion 2 Ver la descripción del artículo:");
         System.out.println("          Opcion 3 Ver el Codigo de la ciudad:");
@@ -85,13 +113,18 @@ public class LanzadorTienda {
         System.out.println("          Opcion 9 Consultar unidades.");
         System.out.println("          Opcion 10 Salir.");
 
-        boolean enabledMenu = true;
+        boolean enabledmostrarMenu = true;
+        boolean enabledmostrarMenu2 = true;
+        
+        do{
         try {
 
-            while (enabledMenu == true) {
-                Scanner sca = new Scanner(System.in);
+            
+            while (enabledmostrarMenu == true) {
+                
+                Scanner sca = leerTeclado();
 
-                System.out.println("Introduzca su opcion:");
+                System.out.print("Introduzca su opcion[1-9][10 Salir]: ");
 
                 int opt;
                 opt = sca.nextInt();
@@ -130,54 +163,63 @@ public class LanzadorTienda {
                         
 
                     case 7:
-                        System.out.println("            Introduzca las unidades a aumentar:");
+                        System.out.print("            Introduzca las unidades a aumentar: ");
                         
                         int unidades = sca.nextInt();
                         
                         String resultado = ArtiDeportivo.AumentarDecrementarConsultarUnidades(ArtiDeportivo, unidades,"suma");
-                        System.out.println("Total unidades: "+ resultado);
+                        System.out.println("          Total unidades: "+ resultado);
                         break;
 
                     case 8:
-                        System.out.println("            Introduzca las unidades a decrementar:");
+                        
+                        System.out.print("            Introduzca las unidades a decrementar: ");
+                        
+                        int resta = 0;
                         
                         unidades = sca.nextInt();
                         
                         resultado = ArtiDeportivo.AumentarDecrementarConsultarUnidades(ArtiDeportivo, unidades,"resta");
-                        System.out.println("Total unidades: "+ resultado);
+                        System.out.println("          Total unidades: "+ resultado);
+                        
+                        
                         break;
+                        
 
                     case 9:
                     
                         
                         resultado = ArtiDeportivo.AumentarDecrementarConsultarUnidades(ArtiDeportivo, 0,"consultar");
-                        System.out.println("Total unidades: "+ resultado);
-                        
+                        System.out.println("          Total unidades: "+ resultado);
+                       
                         break;
+                        
                      
 
+                    case 10:
+                           System.out.println("Adios");
+                            enabledmostrarMenu = false;
+                            enabledmostrarMenu2 = false;
+                            break;
+                        
                     default:
-                        System.out.println("Adios");
-                        enabledMenu = false;
-                        break;
+                        System.err.println("Opcion invalida");
 
                 }
             }
 
         } catch (InputMismatchException err) {
             System.err.println("Dato invalido");
+        }catch(Exception err){
+            System.err.println(err.getMessage());
         }
-
-   //Meter dentro de un metodo*
+    }while(enabledmostrarMenu2);
+        
     
-  }
-    
-    
+    }
     
     
-    
-    
-        private static boolean VerificarLength(long codArticuloDeportivo ) throws InputMismatchLength {
+        private static boolean validarCodigoArticulo(long codArticuloDeportivo ) throws ExcepcionTiendaDeportes {
         
     
             
@@ -192,12 +234,12 @@ public class LanzadorTienda {
                     }
                     else
                     {
-                        throw new InputMismatchLength ("Error de Logitud");
+                        throw new ExcepcionTiendaDeportes ("Error de Logitud");
                         
                     }
         }
                     
-        private static boolean VerificarLengthDescription(String descripcion ) throws InputMismatchLength {
+        private static boolean validarDescripcion(String descripcion ) throws ExcepcionTiendaDeportes {
         
     
             
@@ -207,7 +249,7 @@ public class LanzadorTienda {
                     if ( lengthDescription > 40 || lengthDescription <= 0 )
                     {
 
-                       throw new InputMismatchLength ("Error de Logitud");
+                       throw new ExcepcionTiendaDeportes ("Error de Logitud");
 
                     }
                     else
@@ -230,20 +272,17 @@ public class LanzadorTienda {
      int cod_tienda     = (codArticuloDepo /   1000000) % 100;  //11-22-XXXXXXYY
      int cod_articulo   = codArticuloDepo  %   1000000;         //11-22-333333YY  
   
-     int cod_control   = (cod_ciudad + cod_tienda + cod_articulo) % 99; //11-22-333333-44
-      
      Articulo articuloDep = new Articulo();
         
       articuloDep.setCod_ciudad(cod_ciudad);
       articuloDep.setCod_articulo(cod_articulo);
       articuloDep.setCod_tienda(cod_tienda);
-      articuloDep.setCod_control(cod_control);
+      articuloDep.calcularDigitoControl();
       articuloDep.setDescripcion_articulo(descripcion);
         
         
-        System.out.println("articuloDeportivo");
         
-        return articuloDep;        
+     return articuloDep;        
       
         
        
