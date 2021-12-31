@@ -15,15 +15,24 @@ public class LanzadorTienda {
 
     public static void main(String[] args) {
         
+       
         
-        Articulo artis = new Articulo(12,34,567890,32,"dw");
+        System.out.println("Diferentes costructores");
         
-        System.out.println(artis.toString());
+        Articulo arti = new Articulo();
         
-        Articulo artipepis = new Articulo(artis);
+        System.out.println("Sin parametros"+ arti.toString());
         
-        System.out.println(artipepis.toString());
+        Articulo artis = new Articulo(12,34,567890,32,"descripcion");
         
+        System.out.println("Con parametros"+artis.toString());
+        
+        Articulo artis2 = new Articulo(artis);
+        
+        System.out.println("Desde otro objeto"+artis2.toString());
+        
+        System.out.println("");
+        System.out.println("");
         
         long codArticuloDeportivo = 0;
         String descripcion = "";
@@ -77,16 +86,16 @@ public class LanzadorTienda {
                         }                       
                     }
                   
-//  Disecionamos el codigo
+//  Disecionamos el codigo del articulo
 
         Articulo ArtiDeportivo = ObtenerDatosArticulo(codArticuloDeportivo, descripcion);
-        
+//  Mostramos menu      
         mostrarMenu(ArtiDeportivo);
         
    
   }
     
-    
+//Creamos un metodo para el teclado    
      private static Scanner leerTeclado(){
         
         Scanner sc = new Scanner(System.in);
@@ -95,6 +104,7 @@ public class LanzadorTienda {
     }
     
      
+     //Creamos un metodo privado estatico para invocar el menu al cual requiere de un objeto
     private static void mostrarMenu(Articulo ArtiDeportivo){
         
                 
@@ -118,7 +128,6 @@ public class LanzadorTienda {
         
         do{
         try {
-
             
             while (enabledmostrarMenu == true) {
                 
@@ -218,10 +227,10 @@ public class LanzadorTienda {
     
     }
     
-    
+       // Validamos longitud de codigo de artiulo y arrojamos excepcion si no se cumple
         private static boolean validarCodigoArticulo(long codArticuloDeportivo ) throws ExcepcionTiendaDeportes {
         
-    
+   
             
                 int length = String.valueOf(codArticuloDeportivo).length();
 
@@ -238,7 +247,8 @@ public class LanzadorTienda {
                         
                     }
         }
-                    
+           
+         //Validamos longitud de descripcion y arrojamos excepcion si no se cumple
         private static boolean validarDescripcion(String descripcion ) throws ExcepcionTiendaDeportes {
         
     
@@ -264,6 +274,7 @@ public class LanzadorTienda {
          
 }
 
+        //Diseccionamos el codigo y setteamos los valores 
     public static Articulo ObtenerDatosArticulo(long codArticuloDeportivo, String descripcion) {
         
      int codArticuloDepo = (int)codArticuloDeportivo;
@@ -277,6 +288,7 @@ public class LanzadorTienda {
       articuloDep.setCod_ciudad(cod_ciudad);
       articuloDep.setCod_articulo(cod_articulo);
       articuloDep.setCod_tienda(cod_tienda);
+      //llamos a un metodo publico del objeto para calcular el digito
       articuloDep.calcularDigitoControl();
       articuloDep.setDescripcion_articulo(descripcion);
         

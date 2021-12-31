@@ -19,7 +19,7 @@ public final class Articulo {
     private String Descripcion_articulo;
     
     
-    
+    //constructor por defecto
      public Articulo() {
         this.cod_ciudad = 0;
         this.cod_tienda = 0;
@@ -30,6 +30,8 @@ public final class Articulo {
         
         
         }
+     
+     //constructor con parametros
 
 
     public Articulo(int cod_ciudad, int cod_tienda, int cod_articulo, int unidades, String Descripcion_articulo) {
@@ -42,6 +44,9 @@ public final class Articulo {
         
         calcularDigitoControl();
     }
+    
+    
+    //constructor heredado de otro objeto
 
     public Articulo(Articulo articulo) {
         this.cod_ciudad = articulo.cod_ciudad;
@@ -55,21 +60,20 @@ public final class Articulo {
 
  
     
-   //# Variable estatica 
-
-    
     
     @Override
+    //metodo para mostrar todos los atributos del objeto como cadena
     public String toString() {
         return "Articulo{" + "cod_ciudad=" + cod_ciudad + ", cod_tienda=" + cod_tienda + ", cod_articulo=" + cod_articulo +", cod_control=" + cod_control + ", Descripcion del articulo=" + Descripcion_articulo + ", Unidades="+ unidades + '}';
     
     }
-    
+     //metodo para mostrar el codigo completo
     public String CodigoCompleto() {
-        return "Codigo completo"+ cod_ciudad + cod_tienda  + cod_articulo + cod_control + "";
+        return "Codigo completo"+ cod_ciudad + cod_tienda  + cod_articulo + cod_control ;
     
     }
     
+     //metodo sobrecargado para la resta/suma y muestra del unidades
     public String AumentarDecrementarConsultarUnidades(Articulo arti, int cantidad, String operacion) throws Exception {
         
         int stock = arti.getUnidades();
@@ -79,6 +83,11 @@ public final class Articulo {
         switch(operacion){
         
             case "suma":
+                
+                if (cantidad < 0){
+                throw new Exception(" No puedes pasar pasar una cantidad negativa");
+               
+                }
                 totalUnidades = stock + cantidad;
                 resultado = String.valueOf(totalUnidades);
                 arti.setUnidades(totalUnidades);
@@ -90,6 +99,8 @@ public final class Articulo {
                 if (stock < cantidad){
                 throw new Exception("       Error el stock es inferior a la cantidad a decrementar");
                
+                }else if(cantidad < 0 ){
+                    throw new Exception(" No puedes pasar pasar una cantidad negativa");
                 }
                 else{
                 totalUnidades = stock - cantidad;
